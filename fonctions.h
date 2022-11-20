@@ -11,7 +11,9 @@
 #endif
 
 typedef struct node{
-
+    char lettre;
+    int nb_formes; //nombre formes flechies
+    l_flechie_vrb l_flechie;
     char lettre; //lettre contenue dans le noeud
     struct node* sons[ALPHABET_SIZE]; // pointeur sur un tableau contenant les nfils (max 26)
 }s_node, *p_node;

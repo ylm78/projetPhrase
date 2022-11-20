@@ -7,6 +7,8 @@
 #define MAX 256
 #define ALPHABET_SIZE 26
 #include "fonctions.h"
+#include "verbe.h"
+#include <time.h>
 
 void rechercher_mot(){
     char mot[50];
@@ -33,50 +35,50 @@ void rechercher_mot(){
     }
 }
 
-int isFormFlechieInNodeV(p_node mynode)
+int isFormFlechieInNodeV(p_node mynode) //Verifie si une forme fléchie eest dans le noeud
 {
     if(mynode->nb_formes)
         return 1;
     return 0;
 }
 
-int countSonsInNodeV(p_node mynode)
+int countSonsInNodeV(p_node mynode) //Fonction qui permet de compter le nombre d'enfant d'un noeud
 {
     int i=0;
-    while(mynode->sons[i]->lettre!="-" && i<ALPHABET_SIZE)
+    while(mynode->sons[i]->lettre!="-" && i<ALPHABET_SIZE)  //Tantque la lettre est différente de '-' et i inferieur à 26
     {
-        i++;
-        if(i==25) {
-            return i + 1;
+        i++;    //Incrementatioon de i
+        if(i==25) { //Si on a tout parcouru
+            return i + 1;   //On return i+1
         }
     }
-    return i;
+    return i;   //Sinon return i
 }
 
-char* randomNodeV(p_node mynode)
+char* randomNodeV(p_node mynode)    //Fonction qui permet de creer un noeaud aléatoire
 {
     char* w;
     srand(time(NULL));
-    w=malloc(24*sizeof(char));
-    int next=1;
-    p_node tmp=w;
-    int i=rand()% countSonsInNodeV(tmp);
-    while(countSonsInNodeV(tmp))
+    w=malloc(24*sizeof(char));  //Alocation de mémmoire char à w
+    int next=1; //Init de next à 1
+    p_node tmp=w;   //Initialisation d'un p_node qui va parcourir mynode
+    int i=rand()% countSonsInNodeV(tmp);    //i= à nb aléatoire entre 1 et le nb de fils
+    while(countSonsInNodeV(tmp))    //Tantque counSonsInNodeV de tmp n'est pas null
     {
-        tmp=tmp->sons[i];
-        strcat(mot,@tmp->lettre);
-        if(!countSonsInNodeV(tmp))
-            return w;
-        i=rand()% countSonsInNodeV(tmp);
-        if(isFormFlechieInNodeV(tmp))
+        tmp=tmp->sons[i];   //On parcours
+        strcat(w,@tmp->lettre); //
+        if(!countSonsInNodeV(tmp))  //Si different de countSonsInNodeV(tmp)
+            return w;   //return w
+        i=rand()% countSonsInNodeV(tmp);    //i prend une valeur aléatoire entre 1 et countSonsinNodeV
+        if(isFormFlechieInNodeV(tmp))   //Si Il y a une forme flécchie dans tmp
         {
-            next=rand()%2;
+            next=rand()%2;  //
         }
     }
-    return w;
+    return w;   //return w
 }
 
 char* randomTreeVerb(s_tree tree)
 {
-    return randomTreeVerb(tree.root);
+    return randomTreeVerb(tree.root);   //On applique la fonction précedente à tree.root
 }
