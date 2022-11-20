@@ -6,24 +6,45 @@
 #define PROJETPHRASE_TREE_H
 #define ALPHABET_SIZE 26
 
-#include <stdio.h>
-#include <stdlib.h>
-#endif
+typedef struct v_flechies{
+    char * forme_conj;
+    char pers[2];
+    char nombre_gram[2]; //singulier pluriel
+    char temps[5];
+}v_flechies;
 
-typedef struct node{
+typedef struct cell_flechies_verbe{
 
-    char lettre; //lettre contenue dans le noeud
-    struct node* sons[ALPHABET_SIZE]; // pointeur sur un tableau contenant les nfils (max 26)
-}s_node, *p_node;
+    v_flechies flechies;
+    struct cell_flechies_verbe* next;
 
-typedef struct tree{
-    s_node *root;
-}s_tree;
+}*p_flechie_v;
 
-//protypes
-void copy_verbe(char *arrive,char*depart);
-s_node *Create_node(char val);
-int lettre_existante(s_node * noeud, char lettre);
-char supp_lettre(char *chaine);
-void ajouter_mot(s_node * noeud,char* LeMot);
-s_tree Creer_arbre_verbe();
+typedef struct liste_flechie_verbe{
+    p_flechie_v head;
+}l_flechie_vrb;
+
+typedef struct node_v{
+    char lettre;
+    int nb_formes; //nombre formes flechies
+    l_flechie_vrb l_flechie;
+    struct node_v*  sons[ALPHABET_SIZE]; //tableau de l'alphabet
+}node_v, *p_node_v;
+
+typedef struct arbre_v{
+    node_v  *root;
+    l_flechie_vrb l_flechie;
+}tree_v;
+
+typedef struct liste_root_verbe{
+    p_flechie_v head;
+}l_root_vrb;
+
+
+//Prototype de fonction
+int IsVerbeInFichier(char*);
+void copy_verbe(char *,char*);
+void ajt_vrb_txt(char*);
+node_v *new_node_v(char );
+tree_v tree_verbe();
+void get_file_line_v(char *);
